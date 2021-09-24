@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "Carreras")
@@ -22,6 +23,17 @@ public class Carrera implements Serializable {
     @Column(name = "fecha_mofificacion")
     private LocalDateTime fechaModificacion;
 
+    @OneToMany(
+            mappedBy = "carrera",
+            fetch = FetchType.LAZY
+    )
+    private Set<Alumno> alumnos;
+
+    @ManyToMany(
+            mappedBy = "carreras",
+            fetch = FetchType.LAZY
+    )
+    private Set<Profesor> profesores;
     public Carrera() {
     }
 
@@ -78,6 +90,22 @@ public class Carrera implements Serializable {
 
     public void setFechaModificacion(LocalDateTime fechaModificacion) {
         this.fechaModificacion = fechaModificacion;
+    }
+
+    public Set<Alumno> getAlumnos() {
+        return alumnos;
+    }
+
+    public void setAlumnos(Set<Alumno> alumnos) {
+        this.alumnos = alumnos;
+    }
+
+    public Set<Profesor> getProfesores() {
+        return profesores;
+    }
+
+    public void setProfesores(Set<Profesor> profesores) {
+        this.profesores = profesores;
     }
 
     /**
