@@ -1,15 +1,25 @@
 package com.claudio.escuela.modelo.entidad;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Entity
+@Table(name = "Carreras")
 public class Carrera implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(nullable = false, unique = true, length = 40)
     private String nombre;
+    @Column(name = "numero_materias")
     private Integer numeroMaterias;
+    @Column(name = "duracion_carrera")
     private Integer duracionCarrera;
+    @Column(name = "fecha_alta")
     private LocalDateTime fechaAlta;
+    @Column(name = "fecha_mofificacion")
     private LocalDateTime fechaModificacion;
 
     public Carrera() {
@@ -68,6 +78,21 @@ public class Carrera implements Serializable {
 
     public void setFechaModificacion(LocalDateTime fechaModificacion) {
         this.fechaModificacion = fechaModificacion;
+    }
+
+    /**
+     * Crear metodos privados que se encargen de instancias las fechas de alta y fecha de modificacion
+     * para que sean persistentes en todos los objetos que sean utilizados
+     */
+
+    @PrePersist
+    private void antesDePersistir(){
+        this.fechaAlta = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    private void antesDeActualizar(){
+        this.fechaModificacion = LocalDateTime.now();
     }
 
     @Override

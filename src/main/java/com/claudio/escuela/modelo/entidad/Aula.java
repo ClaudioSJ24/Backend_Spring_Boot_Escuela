@@ -2,19 +2,49 @@ package com.claudio.escuela.modelo.entidad;
 
 import com.claudio.escuela.modelo.entidad.enumeradores.TipoPizarra;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Entity
+@Table(name = "aulas")
 public class Aula implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(name = "num_aula", nullable = false)
     private Integer numeroAula;
+    @Column(name = "medidas_metros")
     private String medidas;
+    @Column(name = "cant_butacas")
     private Integer cantidadButacas;
+    @Column(name = "tipo_pizarron")
+    @Enumerated(EnumType.STRING) //El tipo de dato enum sera estring obtenido de la clase enum TipoPizarra
     private TipoPizarra tipoPizarra;
+    @Column(name = "fecha_alta")
     private LocalDateTime fechaAlta;
+    @Column(name = "fecha_modificacion")
     private LocalDateTime fechaModificacion;
+
+    /**
+     * Muchas aulas van a pertenecer a un pabellon por lo tanto generamos la relacion de
+     * unos a muchos mediante el siguiente codigo
+     */
+
+    @ManyToOne(
+            optional = true,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            }
+    )
+    @JoinColumn(
+            name = "pabellon_id",
+            foreignKey = @ForeignKey(name = "FK_PABELLON_ID")
+    )
+    private Pabellon pabellon;//Es nesesario crear los respectivos getters and setters
 
     public Aula() {
     }
@@ -82,6 +112,32 @@ public class Aula implements Serializable {
     public void setFechaModificacion(LocalDateTime fechaModificacion) {
         this.fechaModificacion = fechaModificacion;
     }
+
+    public Pabellon getPabellon() {
+        return pabellon;
+    }
+
+    public void setPabellon(Pabellon pabellon) {
+        this.pabellon = pabellon;
+    }
+
+    /**
+     * Crear metodos privados que se encargen de instancias las fechas de alta y fecha de modificacion
+     * para que sean persistentes en todos los objetos que sean utilizados
+     */
+
+    @PrePersist
+    private void antesDePersistir(){
+        this.fechaAlta = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    private void antesDeActualizar(){
+        this.fechaModificacion = LocalDateTime.now();
+    }
+
+
+
 
     @Override
     public String toString() {

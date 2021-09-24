@@ -1,8 +1,15 @@
 
 package com.claudio.escuela.modelo.entidad;
 
+import javax.persistence.Embeddable;
 import java.io.Serializable;
 
+/**
+ * Esta clase no es una entidad como las anteriores
+ * sino que es una clase u objeto embebida dentro de otra clase del proyecto
+ * es decir, agrega los atributos nesesarios de esta clase a la clase que realice una instania de direccion
+ */
+@Embeddable
 public class Direccion implements Serializable {
 
     private String calle;
