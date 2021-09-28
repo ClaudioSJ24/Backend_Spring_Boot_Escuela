@@ -45,6 +45,8 @@ public class Pabellon  implements Serializable {
     )
     private Set<Aula> aulas; //Es nesesario crear los metodos setters and getters
 
+
+
     public Pabellon() {
     }
 
