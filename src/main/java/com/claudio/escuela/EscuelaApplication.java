@@ -11,6 +11,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.w3c.dom.ls.LSOutput;
 
+import java.util.List;
+
 @SpringBootApplication
 public class EscuelaApplication {
 
@@ -31,9 +33,15 @@ public class EscuelaApplication {
 	@Bean
 	public CommandLineRunner runner(){
 		return args -> {
-			Persona alumno = new Alumno(null, "Claudio","Sanchez","1234567",new Direccion("5 poniente","24","234567","","","San Marcos"));
+			//Codigo para insertar un alumno
+			/*Persona alumno = new Alumno(null, "Aldo","Lopez","12345234",new Direccion("7 poniente","45","23478","","","Tlacotepec"));
 			Persona save = alumnoDAOServicio.save(alumno);
-			System.out.println(save.toString());
+			System.out.println(save.toString());*/
+
+			//Codigo para vizualizar los dos alumnos persistidos en la base de dtos
+
+			List<Persona> alumnos = (List<Persona>) alumnoDAOServicio.findAll();
+			alumnos.forEach(System.out::println);
 		};
 	}
 
