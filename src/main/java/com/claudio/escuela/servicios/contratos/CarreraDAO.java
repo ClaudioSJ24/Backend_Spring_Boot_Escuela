@@ -9,9 +9,10 @@ import java.util.Optional;
  * que se implementaran en la clase carreraDAOImpl del paquete implementaciones
  */
 
-public interface CarreraDAO {
-    Optional<Carrera> findByid(Integer id);
-    Carrera save(Carrera carrera);
-    Iterable<Carrera> findAll();
-    void deleteById(Integer id);
+public interface CarreraDAO extends GenericoDAO<Carrera>{
+    /**
+     * Esta interfaz utilizara los metodos heredados de la interfaz GenericoDAO
+     *Enviando como parametro a GenericoDAO<Carrera> el objeto a utilizar
+     */
+
 }

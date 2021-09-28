@@ -10,32 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Service //se tiene que agregar este descorador para que spring boot lo reconozca como un servicio
-public class CarreraDAOImpl implements CarreraDAO {
-    //Crear instancia de carrera repository para tener acceso a los metodos de la interfaz
-    @Autowired //Indica la inyeccion de la dependencia carreraRepository
-    private CarreraRepository carreraRepository;
+//Uso de genericos atravez de entidades (Carrera) y repositorios(carreraRepository)
+public class CarreraDAOImpl extends GenericoDAOImpl<Carrera, CarreraRepository> implements CarreraDAO {
 
-    @Override
-    @Transactional(readOnly = true)//Indica el tipo de transaccion a utilizar es decir de spring boot y no de java
-    public Optional<Carrera> findByid(Integer id) {
-        return carreraRepository.findById(id);
-    }
-
-    @Override
-    @Transactional
-    public Carrera save(Carrera carrera) {
-        return carreraRepository.save(carrera);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Iterable<Carrera> findAll() {
-        return carreraRepository.findAll();
-    }
-
-    @Override
-    @Transactional
-    public void deleteById(Integer id) {
-        carreraRepository.deleteById(id);
+    @Autowired
+    //Crear constructor padre para poder utilizar repository de CarreraRepository
+    public CarreraDAOImpl(CarreraRepository repository) {
+        super(repository);
     }
 }

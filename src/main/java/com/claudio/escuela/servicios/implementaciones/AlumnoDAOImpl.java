@@ -13,7 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 @Service//Es nesesario
-public class AlumnoDAOImpl implements AlumnoDAO {
+public class AlumnoDAOImpl extends GenericoDAOImpl<Persona, PersonaRepository> implements AlumnoDAO {
+
     //Crear instancia alumno repository para acceder a los metodos de CrudRepository
     @Autowired//indica la inyeccion de la dependencia de AlumnoRepository
 
@@ -21,31 +22,10 @@ public class AlumnoDAOImpl implements AlumnoDAO {
      * //PersonaRepository no es un bean como tal,
      * por lo tanto agregar el bean establecido en interfaz  AlumnoRepository de interfaz (@Repository("repositorioAlumnos"))
      */
-    @Qualifier("repositorioAlumnos")
-    private PersonaRepository alumnoRepository;
 
-    @Override
-    @Transactional(readOnly = true)//Indica el tipo de transaccion a utilizar es decir de spring boot y no de java
-    public Optional<Persona> findById(Integer id) {
-        return alumnoRepository.findById(id);
+
+    public AlumnoDAOImpl(@Qualifier("repositorioAlumnos") PersonaRepository repository) {
+        super(repository);
     }
 
-    @Override
-    @Transactional
-    public Persona save(Persona persona) {
-        return alumnoRepository.save(persona);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Iterable<Persona> findAll() {
-        return alumnoRepository.findAll();
-    }
-
-    @Override
-    @Transactional
-    public void deleteById(Integer id) {
-        alumnoRepository.deleteById(id);
-
-    }
 }
