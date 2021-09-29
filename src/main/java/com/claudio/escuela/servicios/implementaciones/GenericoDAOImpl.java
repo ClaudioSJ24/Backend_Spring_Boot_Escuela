@@ -18,7 +18,7 @@ public class GenericoDAOImpl <E, R extends CrudRepository<E, Integer>> implement
 
     @Override
     @Transactional(readOnly = true)
-    public Optional findByid(Integer id) {
+    public Optional<E> findByid(Integer id) {
         return repository.findById(id);
     }
 

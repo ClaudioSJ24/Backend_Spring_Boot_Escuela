@@ -23,13 +23,14 @@ public class CarreraEjecucionComandos implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        /*Carrera ingSistemas = new Carrera(null,"Ing En Sistemas Computacionales", 55, 5);
+       /* Carrera ingSistemas = new Carrera(null,"Ing En Sistemas Computacionales", 55, 5);
         Carrera save = carreraDAOServicio.save(ingSistemas);
         System.out.println(save.toString());*/
 
-        Optional<Carrera> optionalCarrera = carreraDAOServicio.findByid(1);
-
         Carrera carrera=null;
+        Optional<Carrera> optionalCarrera = carreraDAOServicio.findByid(3);
+
+
         if(optionalCarrera.isPresent()){
             carrera = optionalCarrera.get();
             System.out.println(carrera.toString());
@@ -42,10 +43,11 @@ public class CarreraEjecucionComandos implements CommandLineRunner {
 
         carreraDAOServicio.save(carrera);
 
-        System.out.println(carreraDAOServicio.findByid(1).orElse(new Carrera()).toString());
+        System.out.println(carreraDAOServicio.findByid(3).orElse(new Carrera()).toString());
 
-        carreraDAOServicio.deleteById(1);
-        System.out.println(carreraDAOServicio.findByid(1).orElse(new Carrera()).toString());
+        carreraDAOServicio.deleteById(3);
+        System.out.println(carreraDAOServicio.findByid(3).orElse(new Carrera()).toString());
+
 
     }
 }

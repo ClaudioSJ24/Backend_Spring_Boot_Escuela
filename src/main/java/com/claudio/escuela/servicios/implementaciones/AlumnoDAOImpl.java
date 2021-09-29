@@ -13,8 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 @Service//Es nesesario
-public class AlumnoDAOImpl extends GenericoDAOImpl<Persona, PersonaRepository> implements AlumnoDAO {
 
+//Linea para utilizar la herencia de Clase GenericoDAOImpl
+//public class AlumnoDAOImpl extends GenericoDAOImpl<Persona, PersonaRepository> implements AlumnoDAO {
+public class AlumnoDAOImpl extends PersonaDAOImpl implements AlumnoDAO {
     //Crear instancia alumno repository para acceder a los metodos de CrudRepository
     @Autowired//indica la inyeccion de la dependencia de AlumnoRepository
 
@@ -28,4 +30,9 @@ public class AlumnoDAOImpl extends GenericoDAOImpl<Persona, PersonaRepository> i
         super(repository);
     }
 
+    @Override
+    public Iterable<Persona> buscarAlumnoCarrera(String carreraA) {
+        //Es nesesario hacer el castero a AlunmoRepository para poder tener acceso al metodo buscarAlumnoCarrera
+        return ((AlumnoRepository)repository).buscarAlumnoCarrera(carreraA);
+    }
 }
