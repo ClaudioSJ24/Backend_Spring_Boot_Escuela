@@ -30,20 +30,6 @@ public class EscuelaApplication {
 
 	//forma alternativa para ejecutar el programa mediante un bean en especifico
 
-	@Bean
-	public CommandLineRunner runner(){
-		return args -> {
-			/*//Codigo para insertar un alumno
-			*//*Persona alumno = new Alumno(null, "Aldo","Lopez","12345234",new Direccion("7 poniente","45","23478","","","Tlacotepec"));
-			Persona save = alumnoDAOServicio.save(alumno);
-			System.out.println(save.toString());*//*
-
-			//Codigo para vizualizar los dos alumnos persistidos en la base de dtos
-
-			List<Persona> alumnos = (List<Persona>) alumnoDAOServicio.findAll();
-			alumnos.forEach(System.out::println);*/
-		};
-	}
 
 
 

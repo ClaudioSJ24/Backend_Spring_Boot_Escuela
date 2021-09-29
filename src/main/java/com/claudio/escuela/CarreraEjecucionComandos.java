@@ -29,12 +29,23 @@ public class CarreraEjecucionComandos implements CommandLineRunner {
 
         Optional<Carrera> optionalCarrera = carreraDAOServicio.findByid(1);
 
+        Carrera carrera=null;
         if(optionalCarrera.isPresent()){
-            Carrera carrera = optionalCarrera.get();
+            carrera = optionalCarrera.get();
             System.out.println(carrera.toString());
         }else{
             System.out.println("Carrera no encontrada");
         }
+
+        carrera.setNumeroMaterias(62);
+        carrera.setDuracionCarrera(7);
+
+        carreraDAOServicio.save(carrera);
+
+        System.out.println(carreraDAOServicio.findByid(1).orElse(new Carrera()).toString());
+
+        carreraDAOServicio.deleteById(1);
+        System.out.println(carreraDAOServicio.findByid(1).orElse(new Carrera()).toString());
 
     }
 }
