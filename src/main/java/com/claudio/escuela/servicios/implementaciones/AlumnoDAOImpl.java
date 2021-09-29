@@ -31,6 +31,7 @@ public class AlumnoDAOImpl extends PersonaDAOImpl implements AlumnoDAO {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Iterable<Persona> buscarAlumnoCarrera(String carreraA) {
         //Es nesesario hacer el castero a AlunmoRepository para poder tener acceso al metodo buscarAlumnoCarrera
         return ((AlumnoRepository)repository).buscarAlumnoCarrera(carreraA);

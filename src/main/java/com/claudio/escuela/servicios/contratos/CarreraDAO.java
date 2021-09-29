@@ -15,4 +15,16 @@ public interface CarreraDAO extends GenericoDAO<Carrera>{
      *Enviando como parametro a GenericoDAO<Carrera> el objeto a utilizar
      */
 
+    /**
+     * //Crear consultas atraves de metodos
+     * Estos metodos tienen que estar en interfaz CarreraRepository para poder ser implementados en clase CarreraDAOImpl
+     */
+
+    //@Query("select c from Carrera c where c.nombre like %?1%")
+    Iterable<Carrera> findCarrerasByNameContains(String nombre);
+    //Query("select c from Carrera c where upper(c.nombre) like upper(%?1%)")
+    Iterable<Carrera> findCarrerasByNameIgnoreCase(String nombre);
+    //Query("select c from Carrera c where c.cantidadAnios > ?1")
+    Iterable<Carrera> findCarrerasByAmountYears(Integer amountY);
+
 }

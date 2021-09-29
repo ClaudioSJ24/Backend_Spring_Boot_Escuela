@@ -18,4 +18,22 @@ public class CarreraDAOImpl extends GenericoDAOImpl<Carrera, CarreraRepository> 
     public CarreraDAOImpl(CarreraRepository repository) {
         super(repository);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Iterable<Carrera> findCarrerasByNameContains(String nombre) {
+        return repository.findCarrerasByNameContains(nombre);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Iterable<Carrera> findCarrerasByNameIgnoreCase(String nombre) {
+        return repository.findCarrerasByNameIgnoreCase(nombre);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Iterable<Carrera> findCarrerasByAmountYears(Integer amountY) {
+        return repository.findCarrerasByAmountYears(amountY);
+    }
 }
