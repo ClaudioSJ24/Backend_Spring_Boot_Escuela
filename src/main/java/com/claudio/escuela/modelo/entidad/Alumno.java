@@ -13,6 +13,7 @@ public class Alumno extends Persona {
      */
     @ManyToOne(
             optional = true,
+            fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,
                     CascadeType.MERGE
@@ -34,6 +35,7 @@ public class Alumno extends Persona {
     public void setCarrera(Carrera carrera) {
         this.carrera = carrera;
     }
+
 
     //Se genera el metodo despues de crear las relaciones de herencia
     //se omite el atributo carrera para agregarlo manualmente con super

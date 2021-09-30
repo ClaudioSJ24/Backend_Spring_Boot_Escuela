@@ -77,7 +77,7 @@ public class CarreraEjecucionComandos implements CommandLineRunner {
         carreraDAOServicio.save(licDerecho);
         carreraDAOServicio.save(arquitectura);*/
 
-        //Busca la carrera con el nombre exacto tal como esta escrito
+       /* //Busca la carrera con el nombre exacto tal como esta escrito
         List<Carrera> busCarrera = (List<Carrera>) carreraDAOServicio.findCarrerasByNombreContains("Industrial");
         for (Carrera carrera : busCarrera) {
             System.out.println(carrera.toString());
@@ -93,7 +93,7 @@ public class CarreraEjecucionComandos implements CommandLineRunner {
 
         //Busca la carrera por la duracion de años
         List<Carrera> busCarreraA = (List<Carrera>) carreraDAOServicio.findCarrerasByDuracionCarreraAfter(5);
-        busCarreraA.forEach(System.out::println);
+        busCarreraA.forEach(System.out::println);*/
 
 
     }
