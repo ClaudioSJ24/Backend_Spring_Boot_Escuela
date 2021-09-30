@@ -16,8 +16,8 @@ import java.util.List;
 @SpringBootApplication
 public class EscuelaApplication {
 
-	@Autowired
-	private AlumnoDAO alumnoDAOServicio;
+	/*@Autowired
+	private AlumnoDAO alumnoDAOServicio;*/
 	public static void main(String[] args) {
 		String[] beanDefinitionNames= SpringApplication.run(EscuelaApplication.class, args).getBeanDefinitionNames();
 		/*for (String str: beanDefinitionNames

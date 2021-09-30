@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -26,7 +27,9 @@ public class CarreraEjecucionComandos implements CommandLineRunner {
        /* Carrera ingSistemas = new Carrera(null,"Ing En Sistemas Computacionales", 55, 5);
         Carrera save = carreraDAOServicio.save(ingSistemas);
         System.out.println(save.toString());*/
+/*
 
+//Ejecutando crud
         Carrera carrera=null;
         Optional<Carrera> optionalCarrera = carreraDAOServicio.findByid(3);
 
@@ -47,6 +50,50 @@ public class CarreraEjecucionComandos implements CommandLineRunner {
 
         carreraDAOServicio.deleteById(3);
         System.out.println(carreraDAOServicio.findByid(3).orElse(new Carrera()).toString());
+*/
+
+        /* Carrera ingSistemas = new Carrera(null,"Ing En Sistemas Computacionales", 55, 5);
+        Carrera save = carreraDAOServicio.save(ingSistemas);
+        System.out.println(save.toString());*/
+
+
+        //Ejecutar crud y consultas JPQL Y JPA
+
+        /*Carrera ingIndustrial = new Carrera(null, "Ing. Industrial", 40, 3);
+        Carrera ingCivil = new Carrera(null, "Ing. Civil", 50, 4);
+        Carrera ingAmbiental = new Carrera(null, "Ing. ambiental",35, 5);
+        Carrera ingMecatronica = new Carrera(null, "Ing. Mecatronica", 53, 4);
+        Carrera licContaduria = new Carrera(null, "Lic. Contaduria", 45, 3);
+        Carrera licDerecho = new Carrera(null, "Lic. Derecho", 49, 4);
+        Carrera licAdministracion = new Carrera(null, "Lic. Administracion", 56, 5);
+        Carrera arquitectura = new Carrera(null, "Arquitecto", 40, 3);
+
+        carreraDAOServicio.save(ingAmbiental);
+        carreraDAOServicio.save(ingCivil);
+        carreraDAOServicio.save(ingIndustrial);
+        carreraDAOServicio.save(ingMecatronica);
+        carreraDAOServicio.save(licAdministracion);
+        carreraDAOServicio.save(licContaduria);
+        carreraDAOServicio.save(licDerecho);
+        carreraDAOServicio.save(arquitectura);*/
+
+        //Busca la carrera con el nombre exacto tal como esta escrito
+        List<Carrera> busCarrera = (List<Carrera>) carreraDAOServicio.findCarrerasByNombreContains("Industrial");
+        for (Carrera carrera : busCarrera) {
+            System.out.println(carrera.toString());
+
+        }
+
+        //Innora la forma en que esta escrita la carrera
+        List<Carrera> carreraIgnoreC1= (List<Carrera>) carreraDAOServicio.findCarrerasByNombreContainsIgnoreCase("aquitecto");
+        carreraIgnoreC1.forEach(System.out::println);
+
+        List<Carrera> carreraIgnireC2= (List<Carrera>) carreraDAOServicio.findCarrerasByNombreContainsIgnoreCase("ArQUITECTO");
+        carreraIgnireC2.forEach(System.out::println);
+
+        //Busca la carrera por la duracion de años
+        List<Carrera> busCarreraA = (List<Carrera>) carreraDAOServicio.findCarrerasByDuracionCarreraAfter(5);
+        busCarreraA.forEach(System.out::println);
 
 
     }

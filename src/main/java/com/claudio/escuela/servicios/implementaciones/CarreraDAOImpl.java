@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @Service //se tiene que agregar este descorador para que spring boot lo reconozca como un servicio
 //Uso de genericos atravez de entidades (Carrera) y repositorios(carreraRepository)
 public class CarreraDAOImpl extends GenericoDAOImpl<Carrera, CarreraRepository> implements CarreraDAO {
@@ -19,21 +17,24 @@ public class CarreraDAOImpl extends GenericoDAOImpl<Carrera, CarreraRepository> 
         super(repository);
     }
 
+
     @Override
     @Transactional(readOnly = true)
-    public Iterable<Carrera> findCarrerasByNameContains(String nombre) {
-        return repository.findCarrerasByNameContains(nombre);
+    public Iterable<Carrera> findCarrerasByNombreContains(String nombre) {
+        return repository.findCarrerasByNombreContains(nombre);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Iterable<Carrera> findCarrerasByNameIgnoreCase(String nombre) {
-        return repository.findCarrerasByNameIgnoreCase(nombre);
+    public Iterable<Carrera> findCarrerasByNombreContainsIgnoreCase(String nombre) {
+        return repository.findCarrerasByNombreContainsIgnoreCase(nombre);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Iterable<Carrera> findCarrerasByAmountYears(Integer amountY) {
-        return repository.findCarrerasByAmountYears(amountY);
+    public Iterable<Carrera> findCarrerasByDuracionCarreraAfter(Integer duracionCarrera) {
+        return repository.findCarrerasByDuracionCarreraAfter(duracionCarrera);
     }
+
+
 }
