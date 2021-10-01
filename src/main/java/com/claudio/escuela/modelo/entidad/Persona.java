@@ -1,5 +1,8 @@
 package com.claudio.escuela.modelo.entidad;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -16,6 +19,29 @@ import java.util.Objects;
  * hija generara una nueva tabla, para hacer una consulta se tiene que hace un join con la clase padre persona
  */
 @Inheritance(strategy = InheritanceType.JOINED)
+//permite dar de alta a un alumno via rest de forma adecuada
+@JsonTypeInfo(
+        //
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        //tipo-> indica el tipo de instancia a utilizar
+        property = "tipo"
+        /**
+         * {
+         *     "tipo": "alumno",
+         *     "nombre": "Luis",
+         *     "apellido": "Sanchez",
+         *     "dni": "98765432"
+         * }
+        */
+)
+//indica mediante un array las clases que se utilizaran para hacer las instancias
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Alumno.class, name = "alumno"),
+        @JsonSubTypes.Type(value = Profesor.class, name = "profesor")
+}
+)
+
 public abstract class Persona implements Serializable {
 
     @Id

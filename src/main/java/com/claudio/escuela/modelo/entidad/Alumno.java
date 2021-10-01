@@ -1,5 +1,7 @@
 package com.claudio.escuela.modelo.entidad;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 @Entity
@@ -20,6 +22,9 @@ public class Alumno extends Persona {
             }
     )
     @JoinColumn(name = "carrera_id")
+    @JsonIgnoreProperties({
+            "hibernateLazyInitializer", "alumnos"
+    })
     private Carrera carrera;//generar setters and getters
     public Alumno() {
     }
