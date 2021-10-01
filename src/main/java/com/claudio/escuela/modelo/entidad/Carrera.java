@@ -1,5 +1,8 @@
 package com.claudio.escuela.modelo.entidad;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.data.jpa.repository.Query;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -27,12 +30,26 @@ public class Carrera implements Serializable {
             mappedBy = "carrera",
             fetch = FetchType.LAZY
     )
+    /**
+     * esta propiedad ignora la propiedad(atributo) carrera de la Clase Alumnos para que al ser
+     * consultadas todas las carreras no tome en cuenta el atributo carrera y salga del ciclo infinito en el que se
+     * encuentra y pueda generar una consulta de las carreras de forma optima
+     *
+     */
+    @JsonIgnoreProperties({"carrera"})
     private Set<Alumno> alumnos;
 
     @ManyToMany(
             mappedBy = "carreras",
             fetch = FetchType.LAZY
     )
+    /**
+     * esta propiedad ignora la propiedad(atributo) carreras de la Clase profesor para que al ser
+     * consultadas todas las carreras no tome en cuenta el atributo carrera y salga del ciclo infinito en el que se
+     * encuentra y pueda generar una consulta de las carreras de forma optima
+     *
+     */
+    @JsonIgnoreProperties({"carreras"})
     private Set<Profesor> profesores;
     public Carrera() {
     }
