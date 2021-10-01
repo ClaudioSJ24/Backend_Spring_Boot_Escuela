@@ -17,8 +17,10 @@ import java.util.Optional;
 @RequestMapping("/alumnos")
 public class AlumnoController {
 
-    //Se establece como una variable final de PersonaDao para que se inicialize mediante el constructor y pueda ser utilizada libremente
+    //Se establece como una variable final de PersonaDao para que se inicialize mediante el constructor y poder utilizar sus propiedades(variables y metodos)
     private final PersonaDAO alumnoDAOServicio;
+    //Se establece como una variable final de PersonaDao para que se inicialize mediante el constructor y pueda ser utilizada libremente poder utilizar sus propiedades(variables y metodos)
+    //y asi poder asignar una carrera a alumno
     private final CarreraDAO carreraDAOServicio;
 
     @Autowired
@@ -81,19 +83,26 @@ public class AlumnoController {
 
     @PutMapping("/{idAlumno}/carrera/{idCarrera}")
     public Persona addCarreraAlumno(@PathVariable Integer idAlumno, @PathVariable Integer idCarrera){
+        //Almacenar idAlumnos en optionalAlumno
         Optional<Persona> optionalAlumno = alumnoDAOServicio.findByid(idAlumno);
+        //Negacion de presencia de variable
         if (!optionalAlumno.isPresent()){
             throw new BandRequestException(String.format("El id %d de alumno no existe", idAlumno));
 
         }
+        //Almacenar idcarrera en optionalCarrera
         Optional<Carrera> optionalCarrera = carreraDAOServicio.findByid(idCarrera);
+        //Negacion de presencia de variable
         if (!optionalCarrera.isPresent()){
             throw new BandRequestException(String.format("El id %d de alumno no existe", idCarrera));
 
         }
+        //Asinar a alumno de tipo persona las propiedades obtenidas de optionalAlumno(id,nombre,apellido...etc)
         Persona alumno = optionalAlumno.get();
-        Carrera carreraA = optionalCarrera.get();
-        ((Alumno)alumno).setCarrera(carreraA);
+        //Asinar a  carrera de tipo carera las propiedades obtenidas de optionalCarrera(id,nombre,dni...etc)
+        Carrera carrera = optionalCarrera.get();
+        //Asinar a alumno de tipo persona (es nesesario realizar el casteo a Alumno) para poder asignar las propiedades obtenidas de carrera
+        ((Alumno)alumno).setCarrera(carrera);
 
         return alumnoDAOServicio.save(alumno);
 
