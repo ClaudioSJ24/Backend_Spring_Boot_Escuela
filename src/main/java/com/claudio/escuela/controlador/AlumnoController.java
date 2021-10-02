@@ -15,10 +15,10 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/alumnos")
-public class AlumnoController {
+public class AlumnoController extends PersonaController{
 
     //Se establece como una variable final de PersonaDao para que se inicialize mediante el constructor y poder utilizar sus propiedades(variables y metodos)
-    private final PersonaDAO alumnoDAOServicio;
+    //private final PersonaDAO alumnoDAOServicio;
     //Se establece como una variable final de PersonaDao para que se inicialize mediante el constructor y pueda ser utilizada libremente poder utilizar sus propiedades(variables y metodos)
     //y asi poder asignar una carrera a alumno
     private final CarreraDAO carreraDAOServicio;
@@ -26,10 +26,12 @@ public class AlumnoController {
     @Autowired
     //"alumnoDAOImple" es la clase de donde se obtendran las personasDao de tipo alumno
     public AlumnoController(@Qualifier("alumnoDAOImpl") PersonaDAO alumnoDAOServicio, CarreraDAO carreraDAOServicio) {
-        this.alumnoDAOServicio = alumnoDAOServicio;
+        //this.alumnoDAOServicio = alumnoDAOServicio;
+        super(alumnoDAOServicio);
+        nombreEntidad = "Alumno";
         this.carreraDAOServicio = carreraDAOServicio;
     }
-    @GetMapping("/id/{codigo}")
+    /*@GetMapping("/id/{codigo}")
     public Persona getAlumnoById(@PathVariable(value = "codigo", required = false) Integer id){
         Optional<Persona> optionalAlumno = alumnoDAOServicio.findByid(id);
         if (!optionalAlumno.isPresent()){
@@ -52,25 +54,7 @@ public class AlumnoController {
         return alumnoDAOServicio.save(alumno);
     }
 
-    @PutMapping("/update/{id}")
-    public Persona updateAlumno(@PathVariable Integer id,@RequestBody Persona alumno){
 
-        Persona updateAlumno = null;
-        Optional<Persona> optionalAlumno = alumnoDAOServicio.findByid(id);
-        if (!optionalAlumno.isPresent()){
-            throw new BandRequestException(String.format("El alumno con id %d no existe", id));
-        }
-
-        updateAlumno=optionalAlumno.get();
-        updateAlumno.setNombre(alumno.getNombre());
-        updateAlumno.setApellido(alumno.getApellido());
-        updateAlumno.setDni(alumno.getDni());
-        updateAlumno.setDireccion(alumno.getDireccion());
-
-        return alumnoDAOServicio.save(updateAlumno);
-
-
-    }
     @DeleteMapping("delete/{id}")
     public void deleteAlumno(@PathVariable Integer id){
         Optional<Persona> optionalAlumno = alumnoDAOServicio.findByid(id);
@@ -79,12 +63,12 @@ public class AlumnoController {
         }
         alumnoDAOServicio.deleteById(id);
     }
-
+*/
 
     @PutMapping("/{idAlumno}/carrera/{idCarrera}")
     public Persona addCarreraAlumno(@PathVariable Integer idAlumno, @PathVariable Integer idCarrera){
         //Almacenar idAlumnos en optionalAlumno
-        Optional<Persona> optionalAlumno = alumnoDAOServicio.findByid(idAlumno);
+        Optional<Persona> optionalAlumno = genericoDAOServicio.findByid(idAlumno);
         //Negacion de presencia de variable
         if (!optionalAlumno.isPresent()){
             throw new BandRequestException(String.format("El id %d de alumno no existe", idAlumno));
@@ -104,7 +88,27 @@ public class AlumnoController {
         //Asinar a alumno de tipo persona (es nesesario realizar el casteo a Alumno) para poder asignar las propiedades obtenidas de carrera
         ((Alumno)alumno).setCarrera(carrera);
 
-        return alumnoDAOServicio.save(alumno);
+        return genericoDAOServicio.save(alumno);
+
+    }
+
+    @PutMapping("/update/{id}")
+    public Persona updateAlumno(@PathVariable Integer id,@RequestBody Persona alumno){
+
+        Persona updateAlumno = null;
+        Optional<Persona> optionalAlumno = genericoDAOServicio.findByid(id);
+        if (!optionalAlumno.isPresent()){
+            throw new BandRequestException(String.format("El alumno con id %d no existe", id));
+        }
+
+        updateAlumno=optionalAlumno.get();
+        updateAlumno.setNombre(alumno.getNombre());
+        updateAlumno.setApellido(alumno.getApellido());
+        updateAlumno.setDni(alumno.getDni());
+        updateAlumno.setDireccion(alumno.getDireccion());
+
+        return genericoDAOServicio.save(updateAlumno);
+
 
     }
 
