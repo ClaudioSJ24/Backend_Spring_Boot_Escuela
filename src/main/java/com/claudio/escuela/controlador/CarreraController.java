@@ -4,8 +4,11 @@ import com.claudio.escuela.exception.BandRequestException;
 import com.claudio.escuela.modelo.entidad.Carrera;
 import com.claudio.escuela.servicios.contratos.CarreraDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -33,70 +36,28 @@ public class CarreraController extends GenericController<Carrera,CarreraDAO> {
     @PutMapping("/update/{id}")
     //Cuando los parametros son iguales no es nesesario establecer la propiedad value en @PathVariable
     //Es neseasario establecer la propiedad @RequestBody a un objeto que se utilice mediante Put
-    public Carrera updateCarrera(@PathVariable Integer id,@RequestBody Carrera carrera){
+    public ResponseEntity<?> updateCarrera(@PathVariable Integer id, @RequestBody Carrera carrera){
+        Map<String,Object> message = new HashMap<>();
         Carrera updateCarrera = null;
         Optional<Carrera> optionalCarrera = genericoDAOServicio.findByid(id);
         if(!optionalCarrera.isPresent()){
-            throw new BandRequestException(String.format("La carrera con id %d no existe", id));
+            //throw new BandRequestException(String.format("La carrera con id %d no existe", id));
+            message.put("Success", Boolean.FALSE);
+            message.put("Mensaje", String.format("La carrera con id %d no existe", id));
+            return ResponseEntity.badRequest().body(message);
         }
         updateCarrera=optionalCarrera.get();
         updateCarrera.setNombre(carrera.getNombre());
         updateCarrera.setNumeroMaterias(carrera.getNumeroMaterias());
         updateCarrera.setDuracionCarrera(carrera.getDuracionCarrera());
 
-        return genericoDAOServicio.save(updateCarrera);
+        message.put("Success", Boolean.TRUE);
+        message.put("Datos", genericoDAOServicio.save(updateCarrera));
 
-    }
-   /* @GetMapping("/getAll")
-    public List<Carrera> getAll(){
-        List<Carrera> carreras = (List<Carrera>) carreraDAOServicio.findAll();
-
-        if (carreras.isEmpty()){
-            throw new BandRequestException("No hay carreras ");
-        }
-        return carreras;
-    }
-    @PostMapping("/save")
-    //Es neseasario establecer la propiedad @RequestBody a un objeto que se utilice mediante Post
-    public Carrera saveCarrera(@RequestBody Carrera carrera){
-        if(carrera.getDuracionCarrera() < 0){
-
-            throw new BandRequestException(String.format("La cantidad de años %d no es valido", carrera.getDuracionCarrera()));
-        }
-
-        if(carrera.getNumeroMaterias() < 0){
-            throw new BandRequestException(String.format("El numero de materias %d no es valido", carrera.getNumeroMaterias()));
-        }
-        return genericoDAOServicio.save(carrera);
-    }
-
-    @GetMapping("/id/{codigo}")// variable que buscara via url
-    //Cuando los parametros no son igualesv(codigo es diferente id)  es nesesario establecer la propiedad value en @PathVariable
-    public Carrera getById(@PathVariable(value = "codigo", required = false) Integer id){
-
-        Optional<Carrera> optionalCarrera = genericoDAOServicio.findByid(id);
-        if(!optionalCarrera.isPresent()){
-            throw new BandRequestException(String.format("La carrera con id %d no existe", id));
-        }
-        return  optionalCarrera.get();
+        return ResponseEntity.ok(message);
 
     }
 
-    @DeleteMapping("/delete/{id}")
-    public void deleteCarrera(@PathVariable Integer id){
-
-        Optional<Carrera> buscarIdCarrera = genericoDAOServicio.findByid(id);
-        if(!buscarIdCarrera.isPresent()){
-
-            throw new BandRequestException(String.format("La carrera con id %d no existe", id));
-        }
-
-        genericoDAOServicio.deleteById(id);
-
-
-    }
-
-    */
 
 }
 

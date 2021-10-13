@@ -8,9 +8,12 @@ import com.claudio.escuela.servicios.contratos.CarreraDAO;
 import com.claudio.escuela.servicios.contratos.PersonaDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -31,54 +34,30 @@ public class AlumnoController extends PersonaController{
         nombreEntidad = "Alumno";
         this.carreraDAOServicio = carreraDAOServicio;
     }
-    /*@GetMapping("/id/{codigo}")
-    public Persona getAlumnoById(@PathVariable(value = "codigo", required = false) Integer id){
-        Optional<Persona> optionalAlumno = alumnoDAOServicio.findByid(id);
-        if (!optionalAlumno.isPresent()){
-            throw new BandRequestException(String.format("El id %d no existe", id));
-        }
-        return optionalAlumno.get();
-    }
-    @GetMapping("/getAll")
-    public  List<Persona> getAllAlumnos(){
 
-        List<Persona> alumnos = (List<Persona>) alumnoDAOServicio.findAll();
-        if (alumnos.isEmpty()){
-            throw new BandRequestException("No hay alumnos¡¡¡");
-        }
-        return alumnos;
-
-    }
-    @PostMapping("/save")
-    public Persona saveAlumno(@RequestBody Persona alumno){
-        return alumnoDAOServicio.save(alumno);
-    }
-
-
-    @DeleteMapping("delete/{id}")
-    public void deleteAlumno(@PathVariable Integer id){
-        Optional<Persona> optionalAlumno = alumnoDAOServicio.findByid(id);
-        if (!optionalAlumno.isPresent()){
-            throw new BandRequestException(String.format("El id %d no existe", id));
-        }
-        alumnoDAOServicio.deleteById(id);
-    }
-*/
 
     @PutMapping("/{idAlumno}/carrera/{idCarrera}")
-    public Persona addCarreraAlumno(@PathVariable Integer idAlumno, @PathVariable Integer idCarrera){
+    public ResponseEntity<?> addCarreraAlumno(@PathVariable Integer idAlumno, @PathVariable Integer idCarrera){
+        Map<String,Object> message = new HashMap<>();
+
         //Almacenar idAlumnos en optionalAlumno
         Optional<Persona> optionalAlumno = genericoDAOServicio.findByid(idAlumno);
         //Negacion de presencia de variable
         if (!optionalAlumno.isPresent()){
-            throw new BandRequestException(String.format("El id %d de alumno no existe", idAlumno));
+            //throw new BandRequestException(String.format("El id %d de alumno no existe", idAlumno));
+            message.put("Success", Boolean.FALSE);
+            message.put("Mensaje", String.format("El id %d de alumno no existe", idAlumno));
+            return ResponseEntity.badRequest().body(message);
 
         }
         //Almacenar idcarrera en optionalCarrera
         Optional<Carrera> optionalCarrera = carreraDAOServicio.findByid(idCarrera);
         //Negacion de presencia de variable
         if (!optionalCarrera.isPresent()){
-            throw new BandRequestException(String.format("El id %d de alumno no existe", idCarrera));
+            //throw new BandRequestException(String.format("El id %d de alumno no existe", idCarrera));
+            message.put("Success", Boolean.FALSE);
+            message.put("Mensaje", String.format("El id %d de alumno no existe", idCarrera));
+            return ResponseEntity.badRequest().body(message);
 
         }
         //Asinar a alumno de tipo persona las propiedades obtenidas de optionalAlumno(id,nombre,apellido...etc)
@@ -88,17 +67,24 @@ public class AlumnoController extends PersonaController{
         //Asinar a alumno de tipo persona (es nesesario realizar el casteo a Alumno) para poder asignar las propiedades obtenidas de carrera
         ((Alumno)alumno).setCarrera(carrera);
 
-        return genericoDAOServicio.save(alumno);
+        message.put("Success", Boolean.FALSE);
+        message.put("Mensaje", genericoDAOServicio.save(alumno));
+        return ResponseEntity.ok(message);
+
+
 
     }
 
     @PutMapping("/update/{id}")
-    public Persona updateAlumno(@PathVariable Integer id,@RequestBody Persona alumno){
-
+    public ResponseEntity<?> updateAlumno(@PathVariable Integer id,@RequestBody Persona alumno){
+        Map<String,Object> message = new HashMap<>();
         Persona updateAlumno = null;
         Optional<Persona> optionalAlumno = genericoDAOServicio.findByid(id);
         if (!optionalAlumno.isPresent()){
-            throw new BandRequestException(String.format("El alumno con id %d no existe", id));
+            //throw new BandRequestException(String.format("El alumno con id %d no existe", id));
+            message.put("Succes", Boolean.FALSE);
+            message.put("Mensaje", String.format("El alumno con id %d no existe", id));
+            return ResponseEntity.badRequest().body(message);
         }
 
         updateAlumno=optionalAlumno.get();
@@ -107,7 +93,9 @@ public class AlumnoController extends PersonaController{
         updateAlumno.setDni(alumno.getDni());
         updateAlumno.setDireccion(alumno.getDireccion());
 
-        return genericoDAOServicio.save(updateAlumno);
+        message.put("Success", Boolean.TRUE);
+        message.put("Datos", genericoDAOServicio.save(updateAlumno));
+        return ResponseEntity.ok(message);
 
 
     }
