@@ -4,6 +4,7 @@ import com.claudio.escuela.exception.BandRequestException;
 import com.claudio.escuela.modelo.entidad.Carrera;
 import com.claudio.escuela.servicios.contratos.CarreraDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,9 +12,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+@Deprecated //Establece el uso de la clase cuando no es nesesaria su implementación
 @RestController
-
 @RequestMapping("/carreras")
+
+/**
+ * como existen dos rutas con la misma direccion (/carreras) es necesario indicar la siguiente propiedad para
+ * determinar cual ruta sera la que se ejecutara
+ */
+@ConditionalOnProperty(prefix = "app", name = "controller.enable-dto", havingValue = "false")
 public class CarreraController extends GenericController<Carrera,CarreraDAO> {
    // private final CarreraDAO carreraDAOServicio;
 
