@@ -14,5 +14,6 @@ API REST de una universidad utilizando Spring boot para su elaboración, contien
 -Spring Web  <br>
 -Spring JPA  <br>
 -Hibernate  <br>
+-Postman  
 
 
